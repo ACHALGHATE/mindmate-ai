@@ -1,0 +1,162 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+h1 {
+    text-align: center;
+    color: white;
+    margin-top: 20px;
+}
+
+
+/* Chat Container */
+
+#chatbox {
+    width: 65%;
+    height: 380px;
+    margin: 20px auto;
+    overflow-y: auto;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    padding: 15px;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Chat bubbles */
+
+.user {
+    text-align: right;
+}
+
+.ai {
+    text-align: left;
+}
+
+.bubble {
+    display: inline-block;
+    padding: 12px 18px;
+    border-radius: 25px;
+    margin: 10px;
+    max-width: 70%;
+    font-size: 14px;
+}
+
+
+/* User bubble */
+
+.user .bubble {
+    background: linear-gradient(45deg, #00c6ff, #0072ff);
+    color: white;
+}
+
+
+/* AI bubble */
+
+.ai .bubble {
+    background: rgba(255, 255, 255, 0.8);
+}
+
+
+/* Input area */
+
+input {
+    padding: 12px;
+    width: 40%;
+    border-radius: 25px;
+    border: none;
+    outline: none;
+    margin-top: 10px;
+}
+
+
+/* Button */
+
+button {
+    padding: 12px 25px;
+    border: none;
+    background: linear-gradient(45deg, #ff7e5f, #feb47b);
+    color: white;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+
+/* Study Planner Box */
+
+#planBox {
+    width: 65%;
+    margin: 20px auto;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 15px;
+    border-radius: 15px;
+    white-space: pre-line;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+hr {
+    width: 65%;
+    margin: 30px auto;
+}
+
+.bubble {
+    display: inline-block;
+    padding: 10px 15px;
+    border-radius: 20px;
+    max-width: 70%;
+}
+
+.user .bubble {
+    background: #007bff;
+    color: white;
+}
+
+.ai .bubble {
+    background: #f1f1f1;
+}
+
+input {
+    padding: 10px;
+    width: 40%;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    background: #007bff;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+#planBox {
+    width: 60%;
+    margin: 20px auto;
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    white-space: pre-line;
+}
+
+hr {
+    width: 60%;
+    margin: 30px auto;
+}

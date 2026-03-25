@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>MindMate AI</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <h1>Login / Signup</h1>
+
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+
+    <button onclick="signup()">Sign Up</button>
+    <button onclick="login()">Login</button>
+
+    <p id="authMsg"></p>
+
+    <h1>✨ MindMate AI 🤖</h1>
+    <p style="text-align:center; color:white;">Your Personal Study Partner 🚀</p>
+    <!-- 💬 CHAT SECTION -->
+    <div id="chatbox"></div>
+
+    <input type="text" id="userInput" placeholder="Type your message...">
+    <button onclick="sendMessage()">Send</button>
+
+    <hr>
+
+    <!-- 📚 STUDY PLANNER SECTION -->
+    <h3>Generate Study Plan</h3>
+
+    <input type="number" id="hoursInput" placeholder="Enter study hours">
+    <button onclick="generatePlan()">Create Plan</button>
+
+    <div id="planBox"></div>
+    <h3>Daily Progress</h3>
+    <button onclick="markDone()">Mark Study Done ✅</button>
+    <p id="streakText">Streak: 0</p>
+    <p id="motivationText"></p>
+
+    <p id="streakText">Streak: 0</p>
+    <p style="text-align:center; color:white;">
+        💡 Ask anything about study, stress, or career
+    </p>
+    <h4>Focus Timer ⏳</h4>
+    <p id="timer">25:00</p>
+    <button onclick="startTimer()">Start</button>
+    <button onclick="resetTimer()">Reset</button>
+
+    <script>
+        function sendMessage() {
+            let input = document.getElementById("userInput");
+            let message = input.value;
+
+            if (message.trim() === "") return;
+
+            let chatbox = document.getElementById("chatbox");
+
+
+            chatbox.innerHTML += `
+        <div class="user">
+            <div class="bubble">${message}</div>
+        </div>
+    `;
+
+            fetch("/chat", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        message: message
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    chatbox.innerHTML += `
+            <div class="ai">
+                <div class="bubble">${data.response}</div>
+            </div>
+        `;
+                    chatbox.scrollTop = chatbox.scrollHeight;
+                });
+
+            input.value = "";
+        };
+
+        input.value = "";
+
+
+
+
+        function generatePlan() {
+            let hours = document.getElementById("hoursInput").value;
+
+            fetch("/study-plan", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        hours: hours
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById("planBox").innerText = data.plan;
+
+                    // save in local storage
+                    localStorage.setItem("studyPlan", data.plan);
+                });
+        }
+    </script>
+    <script>
+        function markDone() {
+            let streak = localStorage.getItem("streak") || 0;
+            streak++;
+
+            localStorage.setItem("streak", streak);
+
+            document.getElementById("streakText").innerText = "Streak: " + streak;
+
+            let msg = "";
+            if (streak == 1) msg = "Great start 🔥";
+            else if (streak == 3) msg = "Consistency building 💪";
+            else if (streak == 5) msg = "You're unstoppable 🚀";
+
+            document.getElementById("motivationText").innerText = msg;
+        };
+    </script>
+    <script>
+        let time = 1500;
+        let interval;
+
+        function startTimer() {
+            interval = setInterval(() => {
+                if (time <= 0) {
+                    clearInterval(interval);
+                    alert("Time's up! Take a break ☕");
+                } else {
+                    time--;
+                    let min = Math.floor(time / 60);
+                    let sec = time % 60;
+                    document.getElementById("timer").innerText =
+                        `${min}:${sec < 10 ? "0" : ""}${sec}`;
+                }
+            }, 1000);
+        }
+
+        function resetTimer() {
+            clearInterval(interval);
+            time = 1500;
+            document.getElementById("timer").innerText = "25:00";
+        }
+    </script>
+    <script>
+        window.onload = function() {
+            let streak = localStorage.getItem("streak") || 0;
+            document.getElementById("streakText").innerText = "Streak: " + streak;
+            let savedPlan = localStorage.getItem("studyPlan");
+            if (savedPlan) {
+                document.getElementById("planBox").innerText = savedPlan;
+            }
+        }
+    </script>
+    <script>
+        function signup() {
+            let username = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
+
+            fetch("/signup", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        username,
+                        password
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById("authMsg").innerText = data.message;
+                });
+        }
+
+        function login() {
+            let username = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
+
+            fetch("/login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        username,
+                        password
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById("authMsg").innerText = data.message;
+                });
+        }
+    </script>
+
+</html>
