@@ -2,11 +2,11 @@ from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
 
-# 📊 Progress Data
+
 progress_data = {"streak": 0}
 
 
-# 💬 Chatbot (No AI - rule based)
+
 def get_response(user_input):
     user_input = user_input.lower()
 
@@ -20,7 +20,7 @@ def get_response(user_input):
         return "Main tumhari help ke liye hoon 😊"
 
 
-# 📚 Smart Study Planner
+
 def generate_study_plan(hours):
     try:
         hours = int(hours)
@@ -43,13 +43,13 @@ def generate_study_plan(hours):
     return plan
 
 
-# 🌐 Home Page
+
 @app.route("/")
 def home():
     return render_template("index.html")
 
 
-# 💬 Chat Route
+
 @app.route("/chat", methods=["POST"])
 def chat_route():
     user_message = request.json["message"]
@@ -57,7 +57,7 @@ def chat_route():
     return jsonify({"response": bot_response})
 
 
-# 📚 Study Plan Route
+
 @app.route("/study-plan", methods=["POST"])
 def study_plan_route():
     hours = request.json["hours"]
@@ -65,7 +65,7 @@ def study_plan_route():
     return jsonify({"plan": plan})
 
 
-# 📊 Progress Tracker Route
+
 @app.route("/mark-done", methods=["POST"])
 def mark_done_route():
     progress_data["streak"] += 1
@@ -113,6 +113,6 @@ def login():
     return jsonify({"message": "Invalid credentials"})
 
 
-# ▶️ Run App
+  
 if __name__ == "__main__":
     app.run(debug=True)
